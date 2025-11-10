@@ -1,0 +1,6 @@
+// backend/package.json (add this line to the "scripts" section)
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js",
+    "data:import": "node seeder.js"  <-- ADD THIS LINE
+  },
