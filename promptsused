@@ -1,0 +1,55 @@
+=======================================
+E-COMMERCE PROJECT ARTIFACTS SUMMARY 
+=======================================
+
+1. PROJECT REQUIREMENTS AND TECH STACK
+-------------------------------------
+* TASK: Create an E-Commerce Website to explore products, view details, and manage a shopping cart.
+* UI REQUIREMENT: Clean and responsive.
+* BACKEND REQUIREMENT: Lightweight, handles data operations and basic cart state management.
+* FRONTEND STACK: React.js (or Next.js) + React Router
+* BACKEND STACK: Node.js + Express.js
+* DATABASE: MongoDB Atlas (NoSQL)
+
+2. TECHNICAL ARCHITECTURE SUMMARY
+-------------------------------------
+* ARCHITECTURE STYLE: Three-Tier Architecture (Presentation, Application, Data). 
+* PRESENTATION LAYER: React components handle UI/UX and make API calls.
+* APPLICATION LAYER: Express API handles business logic (products, cart state) and acts as the gatekeeper to the database.
+* DATA LAYER: MongoDB Atlas stores Products and Cart documents.
+* CART STATE MECHANISM: Cart data is stored in MongoDB, identified by a 'sessionId' sent by the frontend in the 'X-Session-ID' HTTP header.
+
+3. CORE BACKEND CODE ARTIFACTS
+-------------------------------------
+* FILE: backend/models/Product.js
+    * SCHEMA: {name: String, price: Number, description: String, imageUrl: String, stockQuantity: Number}
+* FILE: backend/models/Cart.js
+    * SCHEMA: {sessionId: String (unique), items: [{productId: ObjectId (ref: Product), quantity: Number}]}
+* FILE: backend/server.js
+    * FUNCTION: Sets up Express, connects to MONGO_URI, and mounts productRoutes and cartRoutes.
+* FILE: backend/routes/productRoutes.js
+    * ENDPOINTS: GET /api/products (list), GET /api/products/:id (details)
+* FILE: backend/routes/cartRoutes.js
+    * ENDPOINTS: GET /api/cart (retrieve by session ID), POST /api/cart/add (add/update item by session ID)
+* FILE: backend/seeder.js
+    * FUNCTION: Script for populating the MongoDB Product collection with sample data for testing.
+
+4. CORE FRONTEND CODE ARTIFACTS (REACT)
+-------------------------------------
+* FILE: frontend/src/App.js
+    * FUNCTION: Uses React Router to define paths: /, /product/:id, /cart. Must be wrapped in <CartProvider>.
+* FILE: frontend/src/components/ProductList.js
+    * FUNCTION: Fetches /api/products, renders product cards, includes 'Add to Cart' button.
+* FILE: frontend/context/CartContext.js
+    * FUNCTION: Implements Global State via Context API and useReducer. Exposes state (cartItems, loading) and async functions (fetchCart, updateCartItem) that communicate with the backend /api/cart routes.
+* KEY HOOK: useCart()
+
+5. PROMPTS USED FOR GENERATION (The Third Deliverable)
+------------------------------------------------------
+* ARCHITECTURE PROMPT: "Generate a Three-Tier Architectural Documentation for an e-commerce website using React/Next.js, Node.js/Express, and MongoDB Atlas. Detail data flow via RESTful API and cart state strategy."
+* BACKEND LOGIC PROMPT: "Generate the Express Router code and necessary utility functions for /api/cart. Implement logic for GET / and POST /add, including logic to find or create a new cart based on the X-Session-ID header."
+* FRONTEND CONTEXT PROMPT: "Using React's Context API and useReducer, generate the CartContext.js and CartReducer.js. The context must expose fetchCart and updateCartItem functions that handle API calls to the Express backend."
+
+=========================================================
+END OF EXPORT
+=========================================================
