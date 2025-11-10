@@ -1,0 +1,77 @@
+=========================================================
+TECHNICAL ARCHITECTURE DOCUMENTATION: E-COMMERCE WEBSITE
+=========================================================
+
+1. ARCHITECTURAL STYLE: THREE-TIER ARCHITECTURE
+---------------------------------------------------------
+The application is structured into three main logical layers to ensure separation of
+concerns, scalability, and maintainability. 
+
+* Presentation Layer (Frontend): Handles UI and user interaction.
+* Application Layer (Backend/API): Contains business logic and handles requests.
+* Data Layer (Database): Stores and manages application data.
+
+
+2. COMPONENT BREAKDOWN AND TECHNOLOGY STACK
+---------------------------------------------------------
+
+A. PRESENTATION LAYER (FRONTEND)
+    * Technology: React.js (or Next.js)
+    * Routing: React Router
+    * Role: Renders the UI, handles user input, manages client-side routing, and
+      makes API calls to the backend. Must be clean and responsive.
+
+B. APPLICATION LAYER (BACKEND/API)
+    * Technology: Node.js with Express.js
+    * Role: Serves as the RESTful API gateway. Handles HTTP requests, implements
+      product/cart business logic, performs data validation, and manages basic
+      cart state (linking to session or user ID).
+
+C. DATA LAYER (DATABASE)
+    * Technology: MongoDB Atlas (NoSQL)
+    * Role: Stores product catalog data and manages temporary/persistent cart data.
+      Atlas provides a managed, cloud-hosted solution.
+
+
+3. DATA FLOW AND API ENDPOINTS (RESTful API)
+---------------------------------------------------------
+The data exchange uses JSON format over HTTP/HTTPS.
+
+A. CORE DATA FLOW
+    1. Frontend makes HTTP request to Backend (Express).
+    2. Backend interacts with MongoDB to retrieve/modify data.
+    3. MongoDB returns data to Backend.
+    4. Backend sends response (JSON) back to the Frontend.
+    5. Frontend updates the UI.
+
+B. KEY API ENDPOINTS (Example)
+    * GET /api/products          : Retrieve a list of all products.
+    * GET /api/products/:id      : Retrieve details for a specific product.
+    * GET /api/cart              : Retrieve the current contents of the user's cart.
+    * POST /api/cart/add         : Add an item/quantity to the cart.
+    * PUT /api/cart/:id          : Update the quantity of a specific cart item.
+
+
+4. STATE MANAGEMENT STRATEGY
+---------------------------------------------------------
+
+A. FRONTEND STATE
+    * Local: React's useState/useReducer for component-specific state.
+    * Global: React Context API or a lightweight state library for application-wide
+      state (e.g., product lists, loading status).
+
+B. BACKEND/CART STATE
+    * Management: Cart data is persisted in **MongoDB**.
+    * Unauthenticated Users: Cart linked to a **Session ID** (stored as a client cookie).
+    * Authenticated Users: Cart linked to a **User ID**.
+
+
+5. DEPLOYMENT CONSIDERATIONS
+---------------------------------------------------------
+* Frontend: Static hosting platforms like Vercel or Netlify.
+* Backend: Cloud platforms such as AWS (Lambda/API Gateway), Heroku, or a VM.
+* Database: Managed by MongoDB Atlas.
+
+=========================================================
+END OF DOCUMENT
+=========================================================
